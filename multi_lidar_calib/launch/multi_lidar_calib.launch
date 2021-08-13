@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    
+    <arg name="extracted_path_" default="/media/mjy/Samsung_T5/linux/DX/data/0812forcalib/test/pcd_select/" />
+    <arg name="pcd_num_per_lidar_" default="36" />
+
+    <node pkg="multi_lidar_calib" type="multi_lidar_calib" name="multi_lidar_calib" output="screen">
+      <param name="extracted_path" value="$(arg extracted_path_)"/>
+      <param name="pcd_num_per_lidar" value="$(arg pcd_num_per_lidar_)"/>
+    </node>
+
+    <arg name="rviz" default="true" />
+    <group if="$(arg rviz)">
+        <node launch-prefix="nice" pkg="rviz" type="rviz" name="rviz_mc" args="-d $(find multi_lidar_calib)/rviz_cfg/multi_lidar_calib.rviz" />
+    </group>
+
+</launch>

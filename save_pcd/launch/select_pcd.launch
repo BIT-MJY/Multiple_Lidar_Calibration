@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <arg name="filename_pt_source" default="/media/mjy/Samsung_T5/linux/DX/data/0812forcalib/test/pcd/" />
+    <arg name="filename_pt_selected_det" default="/media/mjy/Samsung_T5/linux/DX/data/0812forcalib/test/pcd_select/" />
+    <arg name="suffix_" default="_0.pcd" />
+
+    <node pkg="save_pcd" type="select_pcd" name="select_pcd" output="screen">
+      	<param name="filename_pt" value="$(arg filename_pt_source)"/>
+        <param name="filename_pt_save" value="$(arg filename_pt_selected_det)"/>
+        <param name="suffix" value="$(arg suffix_)"/>
+    </node>
+    <arg name="rviz" default="false" />
+    <group if="$(arg rviz)">
+        <node launch-prefix="nice" pkg="rviz" type="rviz" name="rviz_save_pcd" args="-d $(find save_pcd)/rviz_cfg/save_pcd.rviz" />
+    </group>
+
+</launch>

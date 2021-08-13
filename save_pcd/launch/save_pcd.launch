@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <arg name="shot_save_" default="/media/mjy/Samsung_T5/linux/DX/data/0812forcalib/test/pcd/" />
+
+    <node pkg="save_pcd" type="save_pcd" name="save_pcd" output="screen">
+          	<param name="shot_save" value="$(arg shot_save_)"/>
+            <remap from="/rslidar_points_16" to="/rslidar_points_16" />
+            <remap from="/rslidar_points_32" to="/rslidar_points_32" />
+    </node>
+    <arg name="rviz" default="true" />
+    <group if="$(arg rviz)">
+        <node launch-prefix="nice" pkg="rviz" type="rviz" name="rviz_save_pcd" args="-d $(find save_pcd)/rviz_cfg/save_pcd.rviz" />
+    </group>
+
+</launch>
