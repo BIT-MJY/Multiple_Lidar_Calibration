@@ -37,7 +37,7 @@ catkin_make
 rosbag play your_bag_containing_2_lidar.bag
 roslaunch save_pcd save_pcd.launch 
 ```
-在```shot_save_```文件下可以看到后缀为0的主雷达（在这里对应rslidar_points_16）和后缀为1的副雷达（在这里对应rslidar_points_32）的全点云pcd。  
+在```shot_save_```文件夹下可以看到后缀为0的主雷达（在这里对应rslidar_points_16）和后缀为1的副雷达（在这里对应rslidar_points_32）的全点云pcd。  
 （4）修改Multiple_Lidar_Calibration/save_pcd/launch/select_pcd.launch文件中的```filename_pt_source```与上面```shot_save_```一致。  
 （5）修改Multiple_Lidar_Calibration/save_pcd/launch/select_pcd.launch文件中的```filename_pt_selected_det```为标定板点云pcd保存目标位置。  
 （6）修改Multiple_Lidar_Calibration/save_pcd/launch/select_pcd.launch文件中的```suffix_```，```"_0.pcd"```表示主雷达，```"_1.pcd"```表示副雷达，这里先设置为```"_0.pcd"```。  
