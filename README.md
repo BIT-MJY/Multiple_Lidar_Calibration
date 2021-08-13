@@ -13,6 +13,7 @@ Here is the source code for calibration between lidars. (Chinese Version)
 准备一个rosbag包，其中包含主雷达0、副雷达1的激光话题。激光数据包含**矩形标定板在远中近三个距离下，绕X-Y-Z轴分别正负方向倾斜一定角度的激光点云**。
 
 
+## 使用方式
 ### 克隆及编译
 ```
 mkdir Multiple_Lidar_Calibration
@@ -58,7 +59,8 @@ roslaunch multi_lidar_calib multi_lidar_calib.launch
 <img src="https://github.com/BIT-MJY/Multiple_Lidar_Calibration/blob/main/calib_results.png">
 
 
-
+## 作者
+北京理工大学智能车辆研究所，马君驿
 
 
 
