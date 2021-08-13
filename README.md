@@ -63,5 +63,6 @@ roslaunch multi_lidar_calib multi_lidar_calib.launch
 ## 作者
 北京理工大学智能车辆研究所，马君驿  
 
+多雷达数据，contact：mjy980625@163.com
 
 
