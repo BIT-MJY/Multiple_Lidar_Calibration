@@ -32,7 +32,7 @@ catkin_make
      <remap from="/rslidar_points_16" to="/rslidar_points_16" />
      <remap from="/rslidar_points_32" to="/rslidar_points_32" />
 ```
-（3）运行下方命令，聚焦于弹出来的黑色方框，点击键盘“S”键，对激光点进行保存。注意，要保证远中近三个距离下（3），绕X-Y-Z轴分别正负方向倾斜一定角度（3x2=6)，都保存到，每个要求保存两次，即位3x6x2=36张pcd文件。  
+（3）运行下方命令，聚焦于弹出来的黑色方框，点击键盘“S”键，对激光点进行保存。注意，要保证远中近三个距离下（3），绕X-Y-Z轴分别正负方向倾斜一定角度（3x2=6)，都保存到，每个要求保存两次，即为3x6x2=36张pcd文件。  
 ```
 rosbag play your_bag_containing_2_lidar.bag
 roslaunch save_pcd save_pcd.launch 
