@@ -55,7 +55,7 @@ roslaunch save_pcd select_pcd.launch
 roslaunch multi_lidar_calib multi_lidar_calib.launch 
 ```
 
-<img src="https://github.com/BIT-MJY/stairs_recogniton/blob/main/stairs_recognition.png">
+<img src="https://github.com/BIT-MJY/Multiple_Lidar_Calibration/blob/main/calib_results.png">
 
 
 
