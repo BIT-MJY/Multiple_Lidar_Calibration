@@ -60,6 +60,10 @@ roslaunch multi_lidar_calib multi_lidar_calib.launch
 <img src="https://github.com/BIT-MJY/Multiple_Lidar_Calibration/blob/main/calib_results.png">
 
 
+## 修改
+下个版本准备加入ICP细化，详见分支[withICP](https://github.com/BIT-MJY/Multiple_Lidar_Calibration/tree/withICP)。
+
+
 ## 作者
 北京理工大学智能车辆研究所，马君驿  
 
