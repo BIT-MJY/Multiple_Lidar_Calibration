@@ -248,8 +248,8 @@ int main(int argc, char **argv)
             {
 
                 std::stringstream ss;
-                std::string filename_pt0 = "/media/mjy/Samsung_T5/linux/DX/data/0812forcalib/pcd_select/";
-                std::string filename_pt1 = "/media/mjy/Samsung_T5/linux/DX/data/0812forcalib/pcd_select/";
+                std::string filename_pt0 = extracted_path;
+                std::string filename_pt1 = extracted_path;
                 ss << k+1;
                 std::string num = ss.str();
                 filename_pt0.append(num);
