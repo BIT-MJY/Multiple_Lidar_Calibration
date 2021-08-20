@@ -76,7 +76,7 @@ bool nextLable = true;
 
 std::string filename_pt = "  ";
 std::string filename_pt_save = "  ";
-
+std::string filesuffix;
 std::string num;
 
 
@@ -115,7 +115,7 @@ void areapickingcallback(const pcl::visualization::AreaPickingEvent &event,void 
              ros::param::get("~filename_pt_save", filename_pt_save);
             std::string calibrationpcddir_ = filename_pt_save;
             calibrationpcddir_.append(num);
-            calibrationpcddir_.append("_1.pcd");  // ==================================================!!!!!!!
+            calibrationpcddir_.append(filesuffix);  
 
             pcl::io::savePCDFile(calibrationpcddir_, *secloud,false);
             nextLable = true;
@@ -144,7 +144,6 @@ int main(int argc, char **argv)
 
     ros::init(argc, argv, "select_pcd");
     ros::NodeHandle nh;
-    std::string filesuffix;
     ros::param::get("~suffix", filesuffix);
 
     for (int k=0; k<100; k++)
