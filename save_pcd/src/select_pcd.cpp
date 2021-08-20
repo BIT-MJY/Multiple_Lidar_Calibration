@@ -94,7 +94,10 @@ void areapickingcallback(const pcl::visualization::AreaPickingEvent &event,void 
     std::cout<<"Nums selected\t"<<secloud->points.size()<<std::endl;
     if (secloud->points.size()==0)
 	{
-	  return;
+        std::cout<<"您已手滑，并未选中任何点云，将重新弹出本帧点云，请再次框选"<<std::endl;
+        nextLable = false;
+        finishLable = true;
+	    return;
 	}
 
 
@@ -124,12 +127,12 @@ void areapickingcallback(const pcl::visualization::AreaPickingEvent &event,void 
 
     else if(save_char == std::string("n") || save_char == std::string("no") || save_char == std::string("N"))
     {
-        std::cout<<"丢弃本次框选的点云数据"<<std::endl;
+        std::cout<<"丢弃本次框选的点云数据，将重新弹出本帧点云，请再次框选"<<std::endl;
         nextLable = false;
     }
     else
     {
-        std::cout<<"所以呢？？？"<<std::endl;
+        std::cout<<"所以呢？？？将重新弹出本帧点云，请再次框选"<<std::endl;
         nextLable = false;
     }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
-    <arg name="filename_pt_source" default="/media/mjy/Samsung_T5/linux/DX/data/0812forcalib/test/pcd/" />
-    <arg name="filename_pt_selected_det" default="/media/mjy/Samsung_T5/linux/DX/data/0812forcalib/test/pcd_select/" />
+    <arg name="filename_pt_source" default="/media/mjy/Samsung_T5/linux/DX/data/0812forcalib/pcd/" />
+    <arg name="filename_pt_selected_det" default="/media/mjy/Samsung_T5/linux/DX/data/0812forcalib/pcd_select/" />
     <arg name="suffix_" default="_0.pcd" />
 
     <node pkg="save_pcd" type="select_pcd" name="select_pcd" output="screen">

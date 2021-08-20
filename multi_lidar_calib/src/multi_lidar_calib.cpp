@@ -39,29 +39,31 @@
 #include <pcl/io/pcd_io.h>
 #include <pcl/console/parse.h>
 #include <pcl/visualization/pcl_visualizer.h>
+#include <pcl/registration/ndt.h>
+#include <pcl/registration/icp.h>
+#include <pcl/filters/approximate_voxel_grid.h>
 #include <sstream>
 #include<vector>
-
 #include<mutex>
 
 #define PI 3.1415926
-
 using std::atan2;
 using std::cos;
 using std::sin;
 
 double lidar_z_height = -1;
-
 ros::Publisher  pubFittedPlane;
-
 double parameters[7] = {0, 0, 0, 1, 0, 0, 0}; // 激光雷达间相对位姿关系 
-
 Eigen::Map<Eigen::Quaterniond> q_to_be_optimized(parameters);
 Eigen::Map<Eigen::Vector3d> t_to_be_optimized(parameters + 4);
-
-
 std::string extracted_path = " ";
 int pcd_num_per_lidar = 0;
+
+int icp_align = 1;
+pcl::PointCloud<pcl::PointXYZ>::Ptr cloud0_cp(new pcl::PointCloud<pcl::PointXYZ>);
+pcl::PointCloud<pcl::PointXYZ>::Ptr cloud1_cp(new pcl::PointCloud<pcl::PointXYZ>);
+
+
 void planeFitting(pcl::PointCloud<pcl::PointXYZ>::Ptr extracted_cloud, pcl::ModelCoefficients::Ptr & coefficients)
 {   
 
@@ -159,6 +161,7 @@ int main(int argc, char **argv)
 
     ros::param::get("~extracted_path", extracted_path);
     ros::param::get("~pcd_num_per_lidar", pcd_num_per_lidar);
+    ros::param::get("~icp_align", icp_align);
 
     pubFittedPlane = nh.advertise<sensor_msgs::PointCloud2>("/fitted_plane", 100);
 
@@ -200,6 +203,12 @@ int main(int argc, char **argv)
                     {
                     PCL_ERROR ("Couldn't read PCD file \n");
                     }
+                
+                if (k ==0)
+                {
+                    cloud0_cp = cloud0;
+                    cloud1_cp = cloud1;
+                }
 
                 
                 pcl::ModelCoefficients::Ptr coefficients0 (new pcl::ModelCoefficients);
@@ -340,9 +349,88 @@ int main(int argc, char **argv)
 
 
 
-    std::cout<<"======================最终标定结果======================"<<std::endl;
-    printf("result q %f %f %f %f result t %f %f %f\n", parameters[3], parameters[0], parameters[1], parameters[2],parameters[4], parameters[5], parameters[6]);
-    std::cout<<q_to_be_optimized.matrix()<<std::endl;
+    std::cout<<"======================基于标定板的最终标定结果(推荐使用)======================"<<std::endl;
+    // printf("result q %f %f %f %f result t %f %f %f\n", parameters[3], parameters[0], parameters[1], parameters[2],parameters[4], parameters[5], parameters[6]);
+    // ROS_WARN_STREAM("ROTATION MATRIX:");
+    // std::cout<<q_to_be_optimized.matrix()<<std::endl;
+    // ROS_WARN_STREAM("TANSLATION VECTOR：");
+    // std::cout<<t_to_be_optimized.matrix()<<std::endl;
+
+    Eigen::Matrix4f init_guess; 
+    auto tempMat = q_to_be_optimized.matrix();
+    init_guess << tempMat(0,0),  tempMat(0,1),  tempMat(0,2), parameters[4],
+                            tempMat(1,0),  tempMat(1,1),  tempMat(1,2), parameters[5],
+                            tempMat(2,0),  tempMat(2,1),  tempMat(2,2), parameters[6],
+                            0,0,0,1;
+    ROS_WARN_STREAM("Transformation MATRIX:");
+    std::cout <<init_guess << std::endl;
+
+
+    if (icp_align)
+    {
+        // pcl::PointCloud<pcl::PointXYZ>::Ptr filtered_cloud0(new pcl::PointCloud<pcl::PointXYZ>);
+        // pcl::PointCloud<pcl::PointXYZ>::Ptr filtered_cloud1(new pcl::PointCloud<pcl::PointXYZ>);
+        // pcl::ApproximateVoxelGrid<pcl::PointXYZ> approximate_voxel_filter0;
+        // approximate_voxel_filter0.setLeafSize(0.05, 0.05, 0.05);
+        // approximate_voxel_filter0.setInputCloud(cloud0_cp);
+        // approximate_voxel_filter0.filter(*filtered_cloud0);
+        // pcl::ApproximateVoxelGrid<pcl::PointXYZ> approximate_voxel_filter1;
+        // approximate_voxel_filter0.setLeafSize(0.05, 0.05, 0.05);
+        // approximate_voxel_filter1.setInputCloud(cloud1_cp);
+        // approximate_voxel_filter1.filter(*filtered_cloud1);
+        // pcl::NormalDistributionsTransform<pcl::PointXYZ, pcl::PointXYZ> ndt;
+        // ndt.setTransformationEpsilon(0.01);
+        // ndt.setStepSize(0.1);
+        // ndt.setResolution(1.0);
+        // ndt.setMaximumIterations(35);
+        // ndt.setInputCloud(cloud1_cp);
+        // ndt.setInputTarget(cloud0_cp);
+        // Eigen::Matrix4f init_guess; 
+        // auto tempMat = q_to_be_optimized.matrix();
+        // init_guess << tempMat(0,0),  tempMat(0,1),  tempMat(0,2), parameters[4],
+        //                             tempMat(1,0),  tempMat(1,1),  tempMat(1,2), parameters[5],
+        //                             tempMat(2,0),  tempMat(2,1),  tempMat(2,2), parameters[6],
+        //                             0,0,0,1;
+        // pcl::PointCloud<pcl::PointXYZ>::Ptr output_cloud(new pcl::PointCloud<pcl::PointXYZ>);
+        // ndt.align(*output_cloud, init_guess);
+        
+        // std::cout << "Normal Distributions Transform has converged:" << ndt.hasConverged()
+        //     << " score: " << ndt.getFitnessScore() << std::endl;
+        // std::cout<<"======================基于标定板+NDT细化的最终标定结果======================"<<std::endl;
+        // ROS_WARN_STREAM("Transformation MATRIX:");
+        // std::cout<<ndt.getFinalTransformation ()<<std::endl;
+
+
+        pcl::PointCloud<pcl::PointXYZ>::Ptr transformed_cloud(new pcl::PointCloud<pcl::PointXYZ>);
+        for (int i=0; i<cloud1_cp->points.size(); i++)
+        {
+            // 先将点用旋转+平移过去：
+            Eigen::Vector3d tmppoint(cloud1_cp->points[i].x,  cloud1_cp->points[i].y, cloud1_cp->points[i].z);
+            Eigen::Vector3d tmppoint_roted =  q_to_be_optimized.matrix() * tmppoint + t_to_be_optimized;
+            pcl::PointXYZ tmppointXYZ;
+            tmppointXYZ.x= tmppoint_roted.x();
+            tmppointXYZ.y=tmppoint_roted.y();
+            tmppointXYZ.z= tmppoint_roted.z();
+            transformed_cloud->points.push_back(tmppointXYZ);
+        }
+    pcl::IterativeClosestPoint<pcl::PointXYZ, pcl::PointXYZ> icp;
+    icp.setInputCloud(transformed_cloud);
+    icp.setInputTarget(cloud0_cp);
+    icp.setMaxCorrespondenceDistance(0.05);  
+    icp.setTransformationEpsilon(1e-10); 
+    icp.setEuclideanFitnessEpsilon(0.001); 
+    icp.setMaximumIterations(100);  
+    pcl::PointCloud<pcl::PointXYZ> Final;
+    icp.align(Final);
+
+    std::cout << "has converged: " << icp.hasConverged() <<std::endl;
+    std::cout << "score: " <<icp.getFitnessScore() << std::endl; 
+    std::cout<<"======================基于标定板+ICP细化的最终标定结果(待优化)======================"<<std::endl;
+    ROS_WARN_STREAM("Transformation MATRIX:");
+    std::cout << icp.getFinalTransformation() * init_guess << std::endl;
+
+
+    }
 
     return 0;
 }
