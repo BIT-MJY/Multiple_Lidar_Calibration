@@ -44,12 +44,12 @@ roslaunch save_pcd save_pcd.launch
 （5）修改Multiple_Lidar_Calibration/save_pcd/launch/select_pcd.launch文件中的```filename_pt_selected_det```为标定板点云pcd保存目标位置。  
 （6）修改Multiple_Lidar_Calibration/save_pcd/launch/select_pcd.launch文件中的```suffix_```，```"_0.pcd"```表示主雷达，```"_1.pcd"```表示副雷达，这里先设置为```"_0.pcd"```。  
 
-  =======================================================================================================
+  ================================================================================
   
 （\*）修改Multiple_Lidar_Calibration/save_pcd/launch/select_pcd.launch文件中的```remove_ground_points_```，```"true"```表示使用地面点去除，```"false"```表示不使用，建议地面点去除仅用于雷达与地面不超过5度的情况。。  
 （\*）修改Multiple_Lidar_Calibration/save_pcd/launch/select_pcd.launch文件中的```z_measured_```为Z方向（垂直地面方向）手动粗测量。  
 
-  =======================================================================================================
+  ================================================================================
   
 （7）运行下方命令，聚焦于弹出来的显示点云的黑色窗口，按键盘X键后，框选只属于标定板区域的点云，在终端弹出的提示中选择是否保存。若选择不保存，则会重新弹出这一帧点云。  
 ```
