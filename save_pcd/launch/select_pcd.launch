@@ -3,11 +3,16 @@
     <arg name="filename_pt_source" default="/media/mjy/Samsung_T5/linux/DX/data/0812forcalib/test/pcd/" />
     <arg name="filename_pt_selected_det" default="/media/mjy/Samsung_T5/linux/DX/data/0812forcalib/test/pcd_select/" />
     <arg name="suffix_" default="_0.pcd" />
+    <arg name="remove_ground_points_" default="true" />
+    <arg name="z_measured_" default="0.79" />
 
     <node pkg="save_pcd" type="select_pcd" name="select_pcd" output="screen">
       	<param name="filename_pt" value="$(arg filename_pt_source)"/>
         <param name="filename_pt_save" value="$(arg filename_pt_selected_det)"/>
         <param name="suffix" value="$(arg suffix_)"/>
+        <param name="remove_ground_points" value="$(arg remove_ground_points_)"/>
+        <param name="z_measured" value="$(arg z_measured_)"/>
+        
     </node>
     <arg name="rviz" default="false" />
     <group if="$(arg rviz)">
@@ -15,3 +20,4 @@
     </group>
 
 </launch>
+
