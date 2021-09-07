@@ -1,8 +1,8 @@
-# Multiple_Lidar_Calibration
+# Multiple_Lidar_Calibration (ICP)
 Here is the source code for calibration between lidars. (Chinese Version)
 
 
-# 双激光雷达联合标定
+# 双激光雷达联合标定 (ICP细化版本)
 
 ## 依赖库
 * PCL 1.8
