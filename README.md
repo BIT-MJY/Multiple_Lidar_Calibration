@@ -1,4 +1,4 @@
-# Multiple_Lidar_Calibration
+# Multiple_Lidar_Calibration(Ground Points Removal)
 Here is the source code for calibration between lidars. (Chinese Version)
 
 
