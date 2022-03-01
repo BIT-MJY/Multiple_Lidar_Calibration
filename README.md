@@ -4,6 +4,8 @@ Here is the source code for calibration between lidars. (Chinese Version)
 
 # 双激光雷达联合标定
 
+本次开源旨在为大家提供一个简洁快速的标定方法，已经在16-16线及16-32线雷达标定中验证其有效性。欢迎大家在此基础上二次开发，实现更优的标定方法。  
+
 ## 依赖库
 * PCL 1.8
 * OpenCV 3.2
